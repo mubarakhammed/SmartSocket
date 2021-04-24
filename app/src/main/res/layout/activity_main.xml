@@ -21,7 +21,7 @@
                 android:id="@+id/just_loading"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                app:lottie_fileName="loadin.json"
+                app:lottie_fileName="loading.json"
                 android:layout_marginTop="50dp"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"/>

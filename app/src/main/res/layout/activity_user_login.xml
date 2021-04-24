@@ -49,6 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Email"
+                    android:id="@+id/user_email"
                     android:textSize="15dp"
                     android:fontFamily="@font/nunitosansregular"
                     android:inputType="textEmailAddress"
@@ -69,12 +70,14 @@
                     android:layout_height="match_parent"
                     android:hint="Password"
                     android:textSize="15dp"
+                    android:id="@+id/user_password"
                     android:fontFamily="@font/nunitosansregular"
                     android:inputType="textPassword"
                     android:paddingLeft="10dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/loginUser"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginRight="40dp"
