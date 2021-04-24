@@ -14,6 +14,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/just_loading"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:lottie_fileName="loadin.json"
+                android:layout_marginTop="50dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"/>
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/oulet_recycler"
           android:layout_width="match_parent"
