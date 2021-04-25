@@ -15,7 +15,7 @@
             android:orientation="vertical">
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/just_loading"
+                android:id="@+id/just_loading1"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 app:lottie_fileName="loadin.json"
@@ -25,6 +25,7 @@
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/oulet_recycler"
           android:layout_width="match_parent"
+          android:layout_marginBottom="30dp"
           android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
