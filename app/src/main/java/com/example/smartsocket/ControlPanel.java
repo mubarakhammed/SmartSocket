@@ -40,14 +40,14 @@ public class ControlPanel extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.black));
         }
 
-        recyclerView= (RecyclerView) findViewById(R.id.oulet_recycler);
-        lottieAnimationView= (LottieAnimationView) findViewById(R.id.just_loading1);
+//        recyclerView= (RecyclerView) findViewById(R.id.oulet_recycler);
+//        lottieAnimationView= (LottieAnimationView) findViewById(R.id.just_loading1);
 
-        recyclerView.setHasFixedSize(false);
-        listitems = new ArrayList<>();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter[0] = new OutletAdapter(listitems, R.layout.oulet_list, this);
-        recyclerView.setAdapter(adapter[0]);
+//        recyclerView.setHasFixedSize(false);
+//        listitems = new ArrayList<>();
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        adapter[0] = new OutletAdapter(listitems, R.layout.oulet_list, this);
+//        recyclerView.setAdapter(adapter[0]);
 
 
         getInfo();

@@ -64,9 +64,14 @@ public class UserRegister extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (email.getText().toString().isEmpty()|| password.getText().toString().isEmpty() || confirm_password.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Empty Fieldsnot allowed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Empty Fields are not allowed", Toast.LENGTH_LONG).show();
+                }else if(!password.getText().toString().equals(confirm_password.getText().toString())){
+                    Toast.makeText(getApplicationContext(), "Passwords are not matching", Toast.LENGTH_LONG).show();
+
                 }else{
-                    registerUser();
+                  //  registerUser();
+                    Intent login = new Intent(UserRegister.this, UserLogin.class);
+                    startActivity(login);
                 }
 
             }
