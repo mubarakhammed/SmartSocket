@@ -2,6 +2,7 @@ package com.example.smartsocket;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,7 +112,8 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.ViewHolder
             graph.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent graphIntent = new Intent(context, Graph.class);
+                    context.startActivity(graphIntent);
                 }
             });
 
