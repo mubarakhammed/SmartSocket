@@ -2,28 +2,56 @@ package com.example.smartsocket;
 
 public class OutletList {
 
-    public String ouletName;
-    public String watt;
-    public String volt;
+    public String device_id;
+    public String device;
+    private  String status;
+    public String frequency;
+    public String power;
+    public String current;
+    public String voltage;
+    public String date;
 
 
-    public OutletList(String ouletName,String watt, String volt){
-        this.ouletName = ouletName;
-        this.watt = watt;
-        this.volt = volt;
+
+    public OutletList(String device_id,String device,  String frequency,String power, String current, String voltage, String status, String date){
+        this.device_id = device_id;
+        this.device = device;
+        this.status = status;
+        this.frequency = frequency;
+        this.power = power;
+        this.current = current;
+        this.voltage = voltage;
+        this.date = date;
+
+
+
     }
 
 
-    public String getOuletName(){
-        return ouletName;
+  public String getDevice_id(){
+        return  device_id;
+  }
+    public String getDevice(){
+        return  device;
+    }
+    public String getStatus(){
+        return  status;
     }
 
-    public String getWatt(){
-        return watt;
+    public String getFrequency(){
+        return  frequency;
     }
-
-    public String getVolt(){
-        return volt;
+    public String getPower(){
+        return  power;
+    }
+    public String getCurrent(){
+        return  current;
+    }
+    public String getVoltage(){
+        return  voltage;
+    }
+    public String getDate(){
+        return date;
     }
 
 

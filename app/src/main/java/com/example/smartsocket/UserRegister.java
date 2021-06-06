@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 public class UserRegister extends AppCompatActivity {
 
-    private EditText  email, password, confirm_password;
+    private EditText  email, password, username, address, confirm_password;
     private Button register;
     private TextView loginLink;
     ProgressDialog progressDialog;
@@ -47,6 +47,8 @@ public class UserRegister extends AppCompatActivity {
         email = (EditText) findViewById(R.id.registeremail);
         password = (EditText) findViewById(R.id.registerPassword);
         confirm_password = (EditText) findViewById(R.id.registerConfirmPassword);
+        username = (EditText) findViewById(R.id.registerUsername);
+        address = (EditText) findViewById(R.id.registerAddress);
         register = (Button) findViewById(R.id.registerUser);
         loginLink = (TextView) findViewById(R.id.loginLink);
 
@@ -69,9 +71,7 @@ public class UserRegister extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Passwords are not matching", Toast.LENGTH_LONG).show();
 
                 }else{
-                  //  registerUser();
-                    Intent login = new Intent(UserRegister.this, UserLogin.class);
-                    startActivity(login);
+                   registerUser();
                 }
 
             }
@@ -84,10 +84,12 @@ public class UserRegister extends AppCompatActivity {
 
     private void registerUser(){
         showDialog();
-        AndroidNetworking.post("https://mydealtrackerweb.staging.cloudware.ng/ussd/trove/api/v1/user_login.php")
-                .addBodyParameter("email", email.getText().toString())
-                .addBodyParameter("password", password.getText().toString())
-                .addBodyParameter("confirm_password", confirm_password.getText().toString())
+        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/authetication-create.php")
+                .addBodyParameter("username", email.getText().toString())
+                .addBodyParameter("email", password.getText().toString())
+                .addBodyParameter("password", confirm_password.getText().toString())
+                .addBodyParameter("address", username.getText().toString())
+                .addBodyParameter("full_name", address.getText().toString())
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsString(new StringRequestListener() {
@@ -105,7 +107,6 @@ public class UserRegister extends AppCompatActivity {
                                 case 200:
                                     //success
                                     hideDialog();
-
                                     Intent intent = new Intent(getApplicationContext(), ControlPanel.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

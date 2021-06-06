@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
         app:cardBackgroundColor="@color/white"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
@@ -18,6 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/outlet_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Oulet 1"
@@ -27,9 +29,9 @@
                 android:textSize="18dp"
                 android:textColor="@color/black"/>
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height=".2dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/yellow"/>
@@ -44,14 +46,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Watt:"
+                    android:text="Frequency rating:"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat_bold"></TextView>
+                    android:fontFamily="@font/nunitosansbold"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/watt_value"
+                    android:id="@+id/freq"
                     android:layout_marginLeft="10dp"/>
 
             </LinearLayout>
@@ -65,17 +67,62 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Volt:"
+                    android:text="Power Rating :"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat_bold"></TextView>
+                    android:fontFamily="@font/nunitosansbold"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/volt_value"
+                    android:id="@+id/power"
                     android:layout_marginLeft="10dp"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Voltage Rating :"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunitosansbold"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/volt"
+                    android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Current Rating :"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunitosansbold"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/current"
+                    android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -87,16 +134,28 @@
 
                 >
                 <Button
+                    android:id="@+id/on_switch"
                     android:layout_width="100dp"
                     android:layout_height="45dp"
                     android:text="ON"/>
                 <Button
+                    android:id="@+id/off_switch"
                     android:layout_width="100dp"
                     android:layout_height="45dp"
                     android:layout_marginLeft="20dp"
                     android:text="OFF"
                     />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/view_graph"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:text="View graph"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/montserrat_bold"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

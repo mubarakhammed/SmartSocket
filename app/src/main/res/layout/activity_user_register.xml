@@ -44,6 +44,26 @@
                 android:background="@color/black"
                 android:layout_marginTop="20dp"/>
 
+            <com.google.android.material.textfield.TextInputLayout
+                app:boxStrokeColor="@color/yellow"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Username"
+                    android:textSize="15dp"
+                    android:id="@+id/registerUsername"
+                    android:fontFamily="@font/nunitosansregular"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 app:boxStrokeColor="@color/yellow"
@@ -64,6 +84,31 @@
                     android:inputType="textEmailAddress"
                     android:paddingLeft="10dp"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                app:boxStrokeColor="@color/yellow"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Address"
+                    android:textSize="15dp"
+                    android:id="@+id/registerAddress"
+                    android:fontFamily="@font/nunitosansregular"
+                    android:inputType="textEmailAddress"
+                    android:paddingLeft="10dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
             <com.google.android.material.textfield.TextInputLayout
                 app:boxStrokeColor="@color/yellow"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

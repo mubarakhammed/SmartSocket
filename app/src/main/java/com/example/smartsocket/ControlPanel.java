@@ -40,14 +40,14 @@ public class ControlPanel extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.black));
         }
 
-//        recyclerView= (RecyclerView) findViewById(R.id.oulet_recycler);
-//        lottieAnimationView= (LottieAnimationView) findViewById(R.id.just_loading1);
+        recyclerView= (RecyclerView) findViewById(R.id.oulet_recycler);
+        lottieAnimationView= (LottieAnimationView) findViewById(R.id.just_loading1);
 
-//        recyclerView.setHasFixedSize(false);
-//        listitems = new ArrayList<>();
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        adapter[0] = new OutletAdapter(listitems, R.layout.oulet_list, this);
-//        recyclerView.setAdapter(adapter[0]);
+        recyclerView.setHasFixedSize(false);
+        listitems = new ArrayList<>();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter[0] = new OutletAdapter(listitems, R.layout.oulet_list, this);
+        recyclerView.setAdapter(adapter[0]);
 
 
         getInfo();
@@ -55,7 +55,7 @@ public class ControlPanel extends AppCompatActivity {
 
     private void getInfo() {
         // animationView.setVisibility(View.VISIBLE);
-        AndroidNetworking.post("https://mydealtrackerweb.staging.cloudware.ng/ussd/trove/api/v1/one_user_plans.php")
+        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/display-outlet-readings.php?id=3")
                // .addBodyParameter("user_id", user_id)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -66,9 +66,9 @@ public class ControlPanel extends AppCompatActivity {
                         Log.d(TAG, "onResponse: " + response);
                         try {
                             JSONObject jObj = new JSONObject(response);
-                            int status = jObj.getInt("status");
-                            String msg = jObj.getString("msg");
-                            JSONArray array = jObj.getJSONArray("data");
+//                            int status = jObj.getInt("status");
+//                            String msg = jObj.getString("msg");
+                            JSONArray array = jObj.getJSONArray("outlet");
                             Log.d(TAG, "onResponse: " + array);
 
                             if (array.length()<1){
@@ -77,12 +77,17 @@ public class ControlPanel extends AppCompatActivity {
                                 recyclerView.setVisibility(View.GONE);
                             }
 
-                            for (int i = 0; i < array.length(); i++) {
+                            for (int i = 0; i <= 1; i++) {
                                 JSONObject o = array.getJSONObject(i);
                                 OutletList item = new OutletList(
-                                        o.getString("plan_category"),
-                                        o.getString("user_plan_name"),
-                                        o.getString("plan_id")
+                                        o.getString("outlet_id"),
+                                        o.getString("outlet_device"),
+                                        o.getString("outlet_status"),
+                                        o.getJSONObject("records").getString("frequency_rating"),
+                                        o.getJSONObject("records").getString("current_rating"),
+                                        o.getJSONObject("records").getString("voltage_rating"),
+                                        o.getJSONObject("records").getString("power_rating"),
+                                        o.getJSONObject("records").getString("date_time")
 
 
                                 );

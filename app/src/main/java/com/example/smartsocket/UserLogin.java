@@ -25,6 +25,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -35,12 +39,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserLogin extends AppCompatActivity {
 
     private TextView registerLink, greetings;
     private Button Login;
-    private EditText email_input, password_input;
+    private EditText username, password_input;
     private  static final String TAG ="login";
     ProgressDialog progressDialog;
     private Dialog mdialog;
@@ -85,7 +91,7 @@ public class UserLogin extends AppCompatActivity {
         registerLink = (TextView) findViewById(R.id.registerLink);
         registerLink.setPaintFlags(registerLink.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         Login = (Button) findViewById(R.id.loginUser) ;
-        email_input = (EditText) findViewById(R.id.user_email) ;
+        username = (EditText) findViewById(R.id.user_email) ;
         password_input = (EditText) findViewById(R.id.user_password) ;
 
 
@@ -100,11 +106,12 @@ public class UserLogin extends AppCompatActivity {
                 ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-                    if (email_input.getText().toString().isEmpty() || password_input.getText().toString().isEmpty()){
+                    if (username.getText().toString().isEmpty() || password_input.getText().toString().isEmpty()){
                         Toast.makeText(getApplicationContext(), "Empty Fields not allowed", Toast.LENGTH_LONG).show();
                     }else{
-                        Intent register = new Intent(UserLogin.this, ControlPanel.class);
-                        startActivity(register);
+                    logUser();
+                    Intent justgo = new Intent(UserLogin.this, ControlPanel.class);
+                    startActivity(justgo);
                     }
 
                 } else {
@@ -129,8 +136,8 @@ public class UserLogin extends AppCompatActivity {
 
     private  void logUser(){
         showDialog();
-        AndroidNetworking.post("https://mydealtrackerweb.staging.cloudware.ng/ussd/trove/api/v1/user_login.php")
-                .addBodyParameter("email", email_input.getText().toString())
+        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/authetication-login.php")
+                .addBodyParameter("username", username.getText().toString())
                 .addBodyParameter("password", password_input.getText().toString())
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -141,26 +148,27 @@ public class UserLogin extends AppCompatActivity {
                         Log.d(TAG, "onResponse: " + response);
                         try {
                             JSONObject jObj = new JSONObject(response);
-                            int status = jObj.getInt("status");
-                            String msg = jObj.getString("msg");
+                            String status = jObj.getString("status");
+                            String msg = jObj.getString("message");
 
                             switch (status) {
 
-                                case 200:
+                                case "200":
                                     //success
                                     hideDialog();
-
                                     Intent intent = new Intent(getApplicationContext(), ControlPanel.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
-
-
-                                default:
+                                case "400":
+                                    Toast.makeText(getApplicationContext(), "User not found", Toast.LENGTH_LONG).show();
+                                    break;
+                                    default:
                                     hideDialog();
-
                                     Log.d(TAG, "onResponse: " + "an error occurred");
+                                    Toast.makeText(getApplicationContext(), "A fatal error occured", Toast.LENGTH_LONG).show();
+                                    break;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -211,7 +219,7 @@ public class UserLogin extends AppCompatActivity {
 
     private void Preference() {
         String usermail = mPreferences.getString(getString(R.string.stored_mail), "");
-        email_input.setText(usermail);
+        username.setText(usermail);
 
     }
     private void showDialog() {
@@ -222,5 +230,9 @@ public class UserLogin extends AppCompatActivity {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
     }
+
+
+
+
 
 }
