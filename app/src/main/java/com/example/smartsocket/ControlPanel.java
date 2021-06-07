@@ -54,7 +54,7 @@ public class ControlPanel extends AppCompatActivity {
     }
 
     private void getInfo() {
-        // animationView.setVisibility(View.VISIBLE);
+         lottieAnimationView .setVisibility(View.VISIBLE);
         AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/display-outlet-readings.php?id=3")
                // .addBodyParameter("user_id", user_id)
                 .setPriority(Priority.MEDIUM)
@@ -62,7 +62,7 @@ public class ControlPanel extends AppCompatActivity {
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        // animationView.setVisibility(View.GONE);
+                         lottieAnimationView.setVisibility(View.GONE);
                         Log.d(TAG, "onResponse: " + response);
                         try {
                             JSONObject jObj = new JSONObject(response);
@@ -83,11 +83,11 @@ public class ControlPanel extends AppCompatActivity {
                                         o.getString("outlet_id"),
                                         o.getString("outlet_device"),
                                         o.getString("outlet_status"),
-                                        o.getJSONObject("records").getString("frequency_rating"),
-                                        o.getJSONObject("records").getString("current_rating"),
-                                        o.getJSONObject("records").getString("voltage_rating"),
-                                        o.getJSONObject("records").getString("power_rating"),
-                                        o.getJSONObject("records").getString("date_time")
+                                        o.getString("frequency_rating"),
+                                        o.getString("currenct_rating"),
+                                        o.getString("voltage_rating"),
+                                        o.getString("power_rating"),
+                                        o.getString("date_time")
 
 
                                 );
@@ -104,7 +104,7 @@ public class ControlPanel extends AppCompatActivity {
                     }
                     @Override
                     public void onError(ANError error) {
-                        //animationView.setVisibility(View.GONE);
+                        lottieAnimationView.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.GONE);
                         Log.d(TAG, "onError:  " + error);
                         if (error.getErrorCode() != 0) {
