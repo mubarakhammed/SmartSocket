@@ -1,7 +1,6 @@
 package com.example.smartsocket;
 
 public class OutletList {
-
     public String device_id;
     public String device;
     private  String status;
@@ -13,7 +12,7 @@ public class OutletList {
 
 
 
-    public OutletList(String device_id,String device,  String frequency,String power, String current, String voltage, String status, String date){
+    public OutletList(String device_id,String device, String status, String frequency,String power, String current, String voltage,  String date){
         this.device_id = device_id;
         this.device = device;
         this.status = status;

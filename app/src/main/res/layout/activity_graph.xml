@@ -4,32 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Graph">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View Graphs"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:textColor="@color/black"
-                />
-            <View
-                android:layout_width="100dp"
-                android:layout_height="1.5dp"
-                android:layout_gravity="center"
-                android:background="@color/black"/>
-        </LinearLayout>
-    </ScrollView>
+    tools:context=".GraphActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

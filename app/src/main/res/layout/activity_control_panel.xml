@@ -20,13 +20,13 @@
                 android:layout_height="wrap_content"
                 android:text="Outlets Information"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="40sp"
+                android:layout_marginTop="20sp"
                 android:fontFamily="@font/nunitosansbold"
                 android:textSize="18dp"
                 android:textColor="@color/black"/>
 
             <View
-                android:layout_width="70dp"
+                android:layout_width="40dp"
                 android:layout_height="5dp"
                 android:background="@color/black"
                 android:layout_marginLeft="20dp"/>
@@ -38,6 +38,7 @@
                 app:lottie_fileName="loadin.json"
                 android:layout_marginTop="50dp"
                 app:lottie_autoPlay="true"
+                android:visibility="gone"
                 app:lottie_loop="true"/>
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/oulet_recycler"

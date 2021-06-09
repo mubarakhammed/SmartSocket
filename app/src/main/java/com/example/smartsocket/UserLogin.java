@@ -25,10 +25,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -38,6 +41,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,8 +54,11 @@ public class UserLogin extends AppCompatActivity {
     private  static final String TAG ="login";
     ProgressDialog progressDialog;
     private Dialog mdialog;
+    RequestQueue queue;
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
+
+    public static String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,8 @@ public class UserLogin extends AppCompatActivity {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.black));
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.black));
         }
+
+         queue = Volley.newRequestQueue(this);
 
         progressDialog= new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -88,8 +97,8 @@ public class UserLogin extends AppCompatActivity {
 
 
 
-        registerLink = (TextView) findViewById(R.id.registerLink);
-        registerLink.setPaintFlags(registerLink.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+//        registerLink = (TextView) findViewById(R.id.registerLink);
+//        registerLink.setPaintFlags(registerLink.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         Login = (Button) findViewById(R.id.loginUser) ;
         username = (EditText) findViewById(R.id.user_email) ;
         password_input = (EditText) findViewById(R.id.user_password) ;
@@ -103,15 +112,20 @@ public class UserLogin extends AppCompatActivity {
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String sname = username.getText().toString();
+                mEditor.putString(getString(R.string.stored_mail), sname);
+                String spass = password_input.getText().toString();
+                mEditor.putString(getString(R.string.stored_password), spass);
+                mEditor.commit();
+
                 ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     if (username.getText().toString().isEmpty() || password_input.getText().toString().isEmpty()){
                         Toast.makeText(getApplicationContext(), "Empty Fields not allowed", Toast.LENGTH_LONG).show();
                     }else{
-                    logUser();
-                    Intent justgo = new Intent(UserLogin.this, ControlPanel.class);
-                    startActivity(justgo);
+                        logUser();
                     }
 
                 } else {
@@ -121,13 +135,13 @@ public class UserLogin extends AppCompatActivity {
 
             }
         });
-        registerLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent register = new Intent(UserLogin.this, UserRegister.class);
-                startActivity(register);
-            }
-        });
+//        registerLink.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent register = new Intent(UserLogin.this, UserRegister.class);
+//                startActivity(register);
+//            }
+//        });
 
         Preference();
     }
@@ -136,9 +150,9 @@ public class UserLogin extends AppCompatActivity {
 
     private  void logUser(){
         showDialog();
-        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/authetication-login.php")
-                .addBodyParameter("username", username.getText().toString())
-                .addBodyParameter("password", password_input.getText().toString())
+        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/authetication-login.php?&username_email="+username.getText().toString()+"&password="+password_input.getText().toString())
+                //.addBodyParameter("username_email", "user1")
+              //  .addBodyParameter("password", "1234")
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsString(new StringRequestListener() {
@@ -149,11 +163,11 @@ public class UserLogin extends AppCompatActivity {
                         try {
                             JSONObject jObj = new JSONObject(response);
                             String status = jObj.getString("status");
-                            String msg = jObj.getString("message");
+                            String user_id = jObj.getString("user_id");
+                            id = user_id;
 
-                            switch (status) {
-
-                                case "200":
+                           switch (status) {
+                               case "200":
                                     //success
                                     hideDialog();
                                     Intent intent = new Intent(getApplicationContext(), ControlPanel.class);
@@ -219,7 +233,9 @@ public class UserLogin extends AppCompatActivity {
 
     private void Preference() {
         String usermail = mPreferences.getString(getString(R.string.stored_mail), "");
+        String passuser = mPreferences.getString(getString(R.string.stored_password), "");
         username.setText(usermail);
+        password_input.setText(passuser);
 
     }
     private void showDialog() {
@@ -230,9 +246,6 @@ public class UserLogin extends AppCompatActivity {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
     }
-
-
-
 
 
 }

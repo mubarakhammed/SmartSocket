@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,19 +24,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.ViewHolder> {
 
     private List <OutletList> listitems;
     private Context context;
     public static final String TAG = "Control";
-    ProgressDialog progressDialog;
+    public static String id_new, outletname;
+
 
     public OutletAdapter(List<OutletList> listitems, int list_item, Context context) {
         this.listitems = listitems;
         this.context = context;
-        progressDialog = new ProgressDialog(context);
+
     }
 
     @NonNull
@@ -60,6 +70,20 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.ViewHolder
         holder.status = listHomeItem.getStatus();
         holder.id = listHomeItem.getDevice_id();
 
+        switch(holder.status){
+            case "1":
+                holder.outlet_status.setText("Active");
+                holder.Onn.setVisibility(View.GONE);
+                break;
+            case "2":
+                holder.outlet_status.setText("Off");
+                holder.Off.setVisibility(View.GONE);
+                break;
+            default:
+                holder.outlet_status.setText("Neutral");
+                break;
+        }
+
 
 
     }
@@ -80,7 +104,8 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView ouletname, Frequency, Power, Current, Voltage;
+        private TextView ouletname, Frequency, Power, Current, Voltage, outlet_status;
+        ProgressBar progressBar;
         private String id, status;
         private Button Onn, Off, graph;
         public ViewHolder(@NonNull View itemView) {
@@ -90,6 +115,9 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.ViewHolder
             Power = (TextView) itemView.findViewById(R.id.power);
             Current = (TextView) itemView.findViewById(R.id.current);
             Voltage = (TextView) itemView.findViewById(R.id.volt);
+            outlet_status = (TextView) itemView.findViewById(R.id.outletstatus);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.switch_progress);
+
 
             Onn = (Button) itemView.findViewById(R.id.on_switch);
             Off = (Button) itemView.findViewById(R.id.off_switch);
@@ -99,126 +127,138 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.ViewHolder
             Onn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SwitchON();
+                    progressBar.setVisibility(View.VISIBLE);
+                    AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/device-off-on-update.php?id="+"1"+"&outlet_status=1")
+                            //   .addBodyParameter("id", "1")
+                            //.addBodyParameter("outlet_status", "1")
+                            .setPriority(Priority.MEDIUM)
+                            .build()
+                            .getAsString(new StringRequestListener() {
+                                @Override
+                                public void onResponse(String response) {
+                                    Log.d(TAG, "onResponse: " + response);
+                                    try {
+                                        JSONObject jObj = new JSONObject(response);
+                                        String status = jObj.getString("status");
+
+                                        switch (status){
+                                            case "200":
+                                                progressBar.setVisibility(View.GONE);
+                                                outlet_status.setText("Active");
+                                                Onn.setVisibility(View.GONE);
+                                                Off.setVisibility(View.VISIBLE);
+                                                break;
+                                            default:
+                                                progressBar.setVisibility(View.GONE);
+                                                Toast.makeText(getContext(), "Fatal error encountered", Toast.LENGTH_LONG).show();
+                                                break;
+
+
+                                        }
+
+                                    }catch (JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                                @Override
+                                public void onError(ANError error) {
+                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(getContext(), "Fatal error encountered", Toast.LENGTH_LONG).show();
+                                    Log.d(TAG, "onError:  " + error);
+                                    if (error.getErrorCode() != 0) {
+                                        // received error from server
+                                        // error.getErrorCode() - the error code from server
+                                        // error.getErrorBody() - the error body from server
+                                        // error.getErrorDetail() - just an error detail
+                                        Log.d(TAG, "onError errorCode : " + error.getErrorCode());
+                                        Log.d(TAG, "onError errorBody : " + error.getErrorBody());
+                                        Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
+                                        // get parsed error object (If ApiError is your class)
+
+                                    } else {
+                                        // error.getErrorDetail() : connectionError, parseError, requestCancelledError
+                                        Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
+                                    }
+                                }
+                            });
+
                 }
             });
 
             Off.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SwitchOff();
+                    progressBar.setVisibility(View.VISIBLE);
+                    AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/device-off-on-update.php?id="+"1"+"&outlet_status=2")
+                            // .addBodyParameter("id", "1")
+                            // .addBodyParameter("outlet_status", "2")
+                            .setPriority(Priority.MEDIUM)
+                            .build()
+                            .getAsString(new StringRequestListener() {
+                                @Override
+                                public void onResponse(String response) {
+                                    Log.d(TAG, "onResponse: " + response);
+                                    try {
+                                        JSONObject jObj = new JSONObject(response);
+                                        String status = jObj.getString("status");
+
+                                        switch (status){
+                                            case "200":
+                                                progressBar.setVisibility(View.GONE);
+                                                outlet_status.setText("Off");
+                                                Off.setVisibility(View.GONE);
+                                                Onn.setVisibility(View.VISIBLE);
+                                                break;
+                                            default:
+                                                progressBar.setVisibility(View.GONE);
+                                                Toast.makeText(getContext(), "Fatal error encountered", Toast.LENGTH_LONG).show();
+                                                break;
+
+
+                                        }
+
+
+
+
+
+                                    }catch (JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                                @Override
+                                public void onError(ANError error) {
+                                    progressBar.setVisibility(View.GONE);
+                                    Log.d(TAG, "onError:  " + error);
+                                    if (error.getErrorCode() != 0) {
+                                        // received error from server
+                                        // error.getErrorCode() - the error code from server
+                                        // error.getErrorBody() - the error body from server
+                                        // error.getErrorDetail() - just an error detail
+                                        Log.d(TAG, "onError errorCode : " + error.getErrorCode());
+                                        Log.d(TAG, "onError errorBody : " + error.getErrorBody());
+                                        Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
+                                        // get parsed error object (If ApiError is your class)
+
+                                    } else {
+                                        // error.getErrorDetail() : connectionError, parseError, requestCancelledError
+                                        Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
+                                    }
+                                }
+                            });
                 }
             });
             graph.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent graphIntent = new Intent(context, Graph.class);
-                    context.startActivity(graphIntent);
+                  id_new = id;
+//                    Intent n_act = new Intent(context, Graph.class);
+//                    n_act.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(n_act);
+
                 }
             });
 
 
         }
-    }
-
-    public void SwitchON(){
-        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/device-off-on-update.php")
-                .addBodyParameter("id", "1")
-                .addBodyParameter("outlet_status", "1")
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsString(new StringRequestListener() {
-                    @Override
-                    public void onResponse(String response) {
-                        // animationView.setVisibility(View.GONE);
-                        Log.d(TAG, "onResponse: " + response);
-                        try {
-                            JSONObject jObj = new JSONObject(response);
-//                            int status = jObj.getInt("status");
-//                            String msg = jObj.getString("msg");
-                        }catch (JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                    @Override
-                    public void onError(ANError error) {
-                        //animationView.setVisibility(View.GONE);
-
-                        Log.d(TAG, "onError:  " + error);
-                        if (error.getErrorCode() != 0) {
-                            // received error from server
-                            // error.getErrorCode() - the error code from server
-                            // error.getErrorBody() - the error body from server
-                            // error.getErrorDetail() - just an error detail
-                            Log.d(TAG, "onError errorCode : " + error.getErrorCode());
-                            Log.d(TAG, "onError errorBody : " + error.getErrorBody());
-                            Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
-                            // get parsed error object (If ApiError is your class)
-
-                        } else {
-                            // error.getErrorDetail() : connectionError, parseError, requestCancelledError
-                            Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
-                        }
-                    }
-                });
-
-    }
-
-
-
-    public void SwitchOff(){
-        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/device-off-on-update.php")
-                .addBodyParameter("id", "1")
-                .addBodyParameter("outlet_status", "2")
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsString(new StringRequestListener() {
-                    @Override
-                    public void onResponse(String response) {
-                        // animationView.setVisibility(View.GONE);
-                        Log.d(TAG, "onResponse: " + response);
-                        try {
-                            JSONObject jObj = new JSONObject(response);
-//                            int status = jObj.getInt("status");
-//                            String msg = jObj.getString("msg");
-
-
-
-
-                        }catch (JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                    @Override
-                    public void onError(ANError error) {
-                        //animationView.setVisibility(View.GONE);
-
-                        Log.d(TAG, "onError:  " + error);
-                        if (error.getErrorCode() != 0) {
-                            // received error from server
-                            // error.getErrorCode() - the error code from server
-                            // error.getErrorBody() - the error body from server
-                            // error.getErrorDetail() - just an error detail
-                            Log.d(TAG, "onError errorCode : " + error.getErrorCode());
-                            Log.d(TAG, "onError errorBody : " + error.getErrorBody());
-                            Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
-                            // get parsed error object (If ApiError is your class)
-
-                        } else {
-                            // error.getErrorDetail() : connectionError, parseError, requestCancelledError
-                            Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
-                        }
-                    }
-                });
-
-    }
-
-    private void showDialog() {
-        if (!progressDialog.isShowing())
-            progressDialog.show();
-    }
-    private void hideDialog() {
-        if (progressDialog.isShowing())
-            progressDialog.dismiss();
     }
 }

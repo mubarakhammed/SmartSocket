@@ -11,7 +11,7 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
         android:layout_marginBottom="10dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="#FFF"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp">
@@ -19,16 +19,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/outlet_name"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Oulet 1"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:textSize="18dp"
-                android:textColor="@color/black"/>
+                >
+                <TextView
+                    android:id="@+id/outlet_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Oulet 1"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/outletstatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Active"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"/>
+
+            </RelativeLayout>
+
             <View
                 android:layout_width="20dp"
                 android:layout_height=".2dp"
@@ -40,16 +61,17 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:orientation="horizontal"
                 >
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/nunitosansbold"
                     android:text="Frequency rating:"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/nunitosansbold"></TextView>
+                    android:textColor="@color/black"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -138,12 +160,18 @@
                     android:id="@+id/on_switch"
                     android:layout_width="100dp"
                     android:layout_height="45dp"
+                    android:backgroundTint="#4CAF50"
+                    android:drawableLeft="@drawable/ic_baseline_power_24"
+                    android:fontFamily="@font/montserrat_bold"
                     android:text="ON"/>
                 <Button
                     android:id="@+id/off_switch"
                     android:layout_width="100dp"
                     android:layout_height="45dp"
                     android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/ic_baseline_power_off_24"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:backgroundTint="#FF5722"
                     android:text="OFF"
                     />
             </LinearLayout>
@@ -151,13 +179,27 @@
             <Button
                 android:id="@+id/view_graph"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="40dp"
                 android:text="View graph"
+                android:textColor="@color/yellow"
+                android:backgroundTint="@color/black"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/montserrat_bold"/>
+            <ProgressBar
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:id="@+id/switch_progress"/>
+
+
         </LinearLayout>
+
+
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

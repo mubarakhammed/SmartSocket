@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SmartSocket</string>
     <string name="stored_mail">smart.mail</string>
+    <string name="stored_password">smart.pass</string>
 </resources>

@@ -64,15 +64,16 @@ public class UserRegister extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                registerUser();
 
-                if (email.getText().toString().isEmpty()|| password.getText().toString().isEmpty() || confirm_password.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Empty Fields are not allowed", Toast.LENGTH_LONG).show();
-                }else if(!password.getText().toString().equals(confirm_password.getText().toString())){
-                    Toast.makeText(getApplicationContext(), "Passwords are not matching", Toast.LENGTH_LONG).show();
-
-                }else{
-                   registerUser();
-                }
+//                if (email.getText().toString().isEmpty()|| password.getText().toString().isEmpty() || confirm_password.getText().toString().isEmpty()){
+//                    Toast.makeText(getApplicationContext(), "Empty Fields are not allowed", Toast.LENGTH_LONG).show();
+//                }else if(!password.getText().toString().equals(confirm_password.getText().toString())){
+//                    Toast.makeText(getApplicationContext(), "Passwords are not matching", Toast.LENGTH_LONG).show();
+//
+//                }else{
+//
+//                }
 
             }
         });
@@ -83,13 +84,14 @@ public class UserRegister extends AppCompatActivity {
     }
 
     private void registerUser(){
+       // Log.d(TAG, "registerUser:  " + email.getText().toString() +password.getText().toString()+address.getText().toString()+ username.getText().toString()+);
         showDialog();
-        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/authetication-create.php")
-                .addBodyParameter("username", email.getText().toString())
-                .addBodyParameter("email", password.getText().toString())
-                .addBodyParameter("password", confirm_password.getText().toString())
-                .addBodyParameter("address", username.getText().toString())
-                .addBodyParameter("full_name", address.getText().toString())
+        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/create-authetication.php")
+                .addBodyParameter("username", "mubarak")
+                .addBodyParameter("email", "mubarak@gmail.com")
+                .addBodyParameter("password", "123456")
+                .addBodyParameter("address", "675")
+                .addBodyParameter("full_name", "mubarak hammed")
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsString(new StringRequestListener() {

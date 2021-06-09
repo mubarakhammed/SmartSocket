@@ -31,6 +31,8 @@ public class ControlPanel extends AppCompatActivity {
     RecyclerView.Adapter[] adapter = new RecyclerView.Adapter[1];
     List<OutletList> listitems;
 
+    public String id = UserLogin.id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +57,8 @@ public class ControlPanel extends AppCompatActivity {
 
     private void getInfo() {
          lottieAnimationView .setVisibility(View.VISIBLE);
-        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/display-outlet-readings.php?id=3")
-               // .addBodyParameter("user_id", user_id)
+        AndroidNetworking.post("https://ebco.com.ng/smartscoket-working-api/display-outlet-readings.php?id="+id)
+             // .addBodyParameter("id", "3")
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsString(new StringRequestListener() {
@@ -66,8 +68,7 @@ public class ControlPanel extends AppCompatActivity {
                         Log.d(TAG, "onResponse: " + response);
                         try {
                             JSONObject jObj = new JSONObject(response);
-//                            int status = jObj.getInt("status");
-//                            String msg = jObj.getString("msg");
+//
                             JSONArray array = jObj.getJSONArray("outlet");
                             Log.d(TAG, "onResponse: " + array);
 
@@ -77,16 +78,16 @@ public class ControlPanel extends AppCompatActivity {
                                 recyclerView.setVisibility(View.GONE);
                             }
 
-                            for (int i = 0; i <= 1; i++) {
+                            for (int i = 0; i < array.length(); i++) {
                                 JSONObject o = array.getJSONObject(i);
                                 OutletList item = new OutletList(
                                         o.getString("outlet_id"),
                                         o.getString("outlet_device"),
                                         o.getString("outlet_status"),
                                         o.getString("frequency_rating"),
+                                        o.getString("power_rating"),
                                         o.getString("currenct_rating"),
                                         o.getString("voltage_rating"),
-                                        o.getString("power_rating"),
                                         o.getString("date_time")
 
 
